@@ -1,14 +1,14 @@
 'use strict';
 
-const express=require('express');
-const bodyParser=require('body-parser');
-const expect=require('chai').expect;
-const cors=require('cors');
+const express     = require('express');
+const bodyParser  = require('body-parser');
+const expect      = require('chai').expect;
+const cors        = require('cors');
 require('dotenv').config();
 
-const apiRoutes=require('./routes/api.js');
-const fccTestingRoutes=require('./routes/fcctesting.js');
-const runner=require('./test-runner');
+const apiRoutes         = require('./routes/api.js');
+const fccTestingRoutes  = require('./routes/fcctesting.js');
+const runner            = require('./test-runner');
 
 let app = express();
 
@@ -45,6 +45,7 @@ app.listen(port, function () {
   console.log("Listening on port " + port);
   if(process.env.NODE_ENV==='test') {
     console.log('Running Tests...');
+    // Aumentamos el tiempo de espera para el entorno de FCC
     setTimeout(function () {
       try {
         runner.run();
@@ -53,9 +54,8 @@ app.listen(port, function () {
           console.log('Tests are not valid:');
           console.log(error);
       }
-    }, 1500);
+    }, 3500); // <-- Este es el cambio importante
   }
 });
 
-// This is the crucial line for the functional tests to work
 module.exports = app; //for testing
