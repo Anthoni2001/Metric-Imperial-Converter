@@ -5,7 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"test": "mocha ./tests/ --ui tdd"
+		"test": "cross-env NODE_ENV=test mocha ./tests/ --ui tdd"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
@@ -25,5 +25,8 @@
 		"freeCodeCamp",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"cross-env": "^10.1.0"
+	}
 }
