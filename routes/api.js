@@ -7,4 +7,35 @@ module.exports = function (app) {
   
   let convertHandler = new ConvertHandler();
 
+  app.route('/api/convert').get((req, res) => {
+    const input = req.query.input;
+    
+    const initNum = convertHandler.getNum(input);
+    const initUnit = convertHandler.getUnit(input);
+
+    // Comprueba las diferentes combinaciones de errores.
+    if (initNum === 'invalid number' && initUnit === 'invalid unit') {
+      return res.send('invalid number and unit');
+    }
+    if (initNum === 'invalid number') {
+      return res.send('invalid number');
+    }
+    if (initUnit === 'invalid unit') {
+      return res.send('invalid unit');
+    }
+
+    // Si no hay errores, procede con la conversión.
+    const returnNum = convertHandler.convert(initNum, initUnit);
+    const returnUnit = convertHandler.getReturnUnit(initUnit);
+    const responseString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
+    
+    // Devuelve el resultado como un objeto JSON.
+    res.json({
+      initNum: initNum,
+      initUnit: initUnit,
+      returnNum: returnNum,
+      returnUnit: returnUnit,
+      string: responseString
+    });
+  });
 };

@@ -1,14 +1,14 @@
 'use strict';
 
-const express     = require('express');
-const bodyParser  = require('body-parser');
-const expect      = require('chai').expect;
-const cors        = require('cors');
+const express=require('express');
+const bodyParser=require('body-parser');
+const expect=require('chai').expect;
+const cors=require('cors');
 require('dotenv').config();
 
-const apiRoutes         = require('./routes/api.js');
-const fccTestingRoutes  = require('./routes/fcctesting.js');
-const runner            = require('./test-runner');
+const apiRoutes=require('./routes/api.js');
+const fccTestingRoutes=require('./routes/fcctesting.js');
+const runner=require('./test-runner');
 
 let app = express();
 
@@ -49,11 +49,13 @@ app.listen(port, function () {
       try {
         runner.run();
       } catch(e) {
+        let error = e;
           console.log('Tests are not valid:');
-          console.error(e);
+          console.log(error);
       }
     }, 1500);
   }
 });
 
+// This is the crucial line for the functional tests to work
 module.exports = app; //for testing
